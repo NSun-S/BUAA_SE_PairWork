@@ -327,7 +327,7 @@ namespace test
 			lines.push_back(Line(-1, 0, 0, 1, RAY));
 			lines.push_back(Line(2, 0, 0, 2, LINE));
 			circles.push_back(Circle(0, 0, 2));
-			Assert::AreEqual(6, compute(lines, circles));
+			Assert::AreEqual(5, compute(lines, circles));
 		}
 		TEST_METHOD(method11) {
 			vector<Line> lines;

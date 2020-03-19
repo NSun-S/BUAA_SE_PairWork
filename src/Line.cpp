@@ -48,7 +48,7 @@ bool Line::pointOnLine(pair<double, double> intersection)
 	}
 	else if (type == RAY)
 	{
-		return ((distance2 - distance1) - length) < -eps;
+		return (((distance2 - distance1) - length) < -eps)||(distance1 < eps);
 	}
 	return true;
 }
