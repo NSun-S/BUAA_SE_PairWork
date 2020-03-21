@@ -18,7 +18,74 @@ bool Line::intersect(Line line2, vector<pair<double, double>>& intersections)
 	double Determinant = (y1 - y2) * (x3 - x4) - (y3 - y4) * (x1 - x2);
 	if (fabs(Determinant) < eps)
 	{
-		return false;
+		if (type == RAY && line2.type == RAY)
+		{
+			if (x1 == x3 && y1 == y3 && ((x2 - x1) * (x4 - x1) < 0 || (y2 - y1) * (y4 - y1) < 0))
+			{
+				intersections.push_back(make_pair(x1, y1));
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if (type == RAY && line2.type == SEGMENT)
+		{
+			if (x1 == x3 && y1 == y3 && ((x2 - x1) * (x4 - x1) < 0 || (y2 - y1) * (y4 - y1) < 0))
+			{
+				intersections.push_back(make_pair(x1, y1));
+			}
+			else if (x1 == x4 && y1 == y4 && ((x2 - x1) * (x3 - x1) < 0 || (y2 - y1) * (y3 - y1) < 0))
+			{
+				intersections.push_back(make_pair(x1, y1));
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if (type == SEGMENT && line2.type == RAY)
+		{
+			if (x1 == x3 && y1 == y3 && ((x2 - x1) * (x4 - x1) < 0 || (y2 - y1) * (y4 - y1) < 0))
+			{
+				intersections.push_back(make_pair(x1, y1));
+			}
+			else if (x2 == x3 && y2 == y3 && ((x1 - x2) * (x4 - x2) < 0 || (y1 - y2) * (y4 - y2) < 0))
+			{
+				intersections.push_back(make_pair(x2, y1));
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if (type == SEGMENT && line2.type == SEGMENT)
+		{
+			if (x1 == x3 && y1 == y3 && ((x2 - x1) * (x4 - x1) < 0 || (y2 - y1) * (y4 - y1) < 0))
+			{
+				intersections.push_back(make_pair(x1, y1));
+			}
+			else if (x1 == x4 && y1 == y4 && ((x2 - x1) * (x3 - x1) < 0 || (y2 - y1) * (y3 - y1) < 0))
+			{
+				intersections.push_back(make_pair(x1, y1));
+			}
+			else if (x2 == x3 && y2 == y3 && ((x1 - x2) * (x4 - x2) < 0 || (y1 - y2) * (y4 - y2) < 0))
+			{
+				intersections.push_back(make_pair(x2, y2));
+			}
+			else if (x2 == x4 && y2 == y4 && ((x1 - x2) * (x3 - x2) < 0 || (y1 - y2) * (y3 - y2) < 0))
+			{
+				intersections.push_back(make_pair(x2, y2));
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 	double intersect_x = (-(x1 - x2) * (y3 * x4 - x3 * y4) + (x3 - x4) * (y1 * x2 - x1 * y2)) / Determinant;
 	double intersect_y = (-(y1 - y2) * (y3 * x4 - x3 * y4) + (y3 - y4) * (y1 * x2 - x1 * y2)) / Determinant;
@@ -37,18 +104,34 @@ double Line::pointDistance(pair<double, double> point1, pair<double, double> poi
 
 bool Line::pointOnLine(pair<double, double> intersection)
 {
-	pair<double, double> endPoint1 = make_pair(x1, y1);
-	pair<double, double> endPoint2 = make_pair(x2, y2);
-	double distance1 = pointDistance(endPoint1, intersection);
-	double distance2 = pointDistance(endPoint2, intersection);
-	double length = pointDistance(endPoint1, endPoint2);
+	//pair<double, double> endPoint1 = make_pair(x1, y1);
+	//pair<double, double> endPoint2 = make_pair(x2, y2);
+	//double distance1 = pointDistance(endPoint1, intersection);
+	//double distance2 = pointDistance(endPoint2, intersection);
+//	double length = pointDistance(endPoint1, endPoint2);
 	if (type == SEGMENT)
 	{
-		return (distance1 <= length && distance2 <= length);
+		if (x1 == x2)
+		{
+			return ((x1 - eps <= intersection.first && intersection.first <= x1 + eps) &&
+				((y1 - eps <= intersection.second && intersection.second <= y2 + eps) ||
+				(y2 - eps <= intersection.second && intersection.second <= y1 + eps)));
+		}
+		return ((x1 - eps <= intersection.first && intersection.first <= x2 + eps) ||
+			(x2 - eps <= intersection.first && intersection.first <= x1 + eps));
+		//return (distance1 <= length + eps && distance2 <= length + eps);
 	}
 	else if (type == RAY)
 	{
-		return (((distance2 - distance1) - length) < -eps)||(distance1 < eps);
+		if (x1 == x2)
+		{
+			return ((x1 - eps <= intersection.first && intersection.first <= x1 + eps) &&
+				((intersection.second - y1 - eps)*(y2-y1)>=0||
+				(intersection.second - y1 + eps) * (y2 - y1) >= 0));
+		}
+		else if (x1 < x2) return x1 - eps <= intersection.first;
+		else return intersection.first <= x1 + eps;
+		//return (((distance2 - distance1) - length) < -eps)||(distance1 < eps);
 	}
 	return true;
 }

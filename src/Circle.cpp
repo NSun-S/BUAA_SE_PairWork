@@ -15,12 +15,19 @@ pair<double, double> Circle::getFoot(Line line1)
 	{
 		Line line2 = Line(c1, c2, c1 + 1, c2, LINE);
 		line1.intersect(line2, intersection);
+		if (intersection.size() == 0) { 
+			cout << "18" << endl; 
+			cout << line1.type << " " << line2.type << endl;
+			cout << line1.x1 << " " << line1.y1 << " " << line1.x2 << " " << line1.y2 << endl;
+			cout << line2.x1 << " " << line2.y1 << " " << line2.x2 << " " << line2.y2 << endl;
+		}
 		return intersection[0];
 	}
 	else if (line1.y1 == line1.y2)
 	{
 		Line line2 = Line(c1, c2, c1, c2 + 1, LINE);
 		line1.intersect(line2, intersection);
+		if (intersection.size() == 0) cout << "25" << endl;
 		return intersection[0];
 	}
 	else
@@ -28,6 +35,7 @@ pair<double, double> Circle::getFoot(Line line1)
 		double cof = -(line1.x2 - line1.x1) / (line1.y2 - line1.y1);
 		Line line2 = Line(c1, c2, c1 + 1, c2 + cof, LINE);
 		line1.intersect(line2, intersection);
+		if (intersection.size() == 0) cout << "33" << endl;
 		return intersection[0];
 	}
 }
@@ -88,8 +96,9 @@ int Circle::intersectLine(Line line1, vector<pair<double, double>>& intersection
 
 int Circle::intersectCircle(Circle circle2, vector<pair<double, double>>& intersections)
 {
-	double distance = sqrt(circle2.r * circle2.r - r * r);
-	if (distance > (r + circle2.r) || distance < fabs(r - circle2.r)) return 0;
+	//double distance = sqrt(circle2.r * circle2.r - r * r);
+	double distance = sqrt(pow(circle2.c1 - c1, 2) + pow(circle2.c2 - c2,2));
+	if (distance - eps > (r + circle2.r) || distance + eps < fabs(r - circle2.r)) return 0;
 	double right = circle2.r * circle2.r - r * r + c1 * c1 - circle2.c1 * circle2.c1
 		+ c2 * c2 - circle2.c2 * circle2.c2;
 	if (circle2.c1 == c1)
@@ -106,7 +115,9 @@ int Circle::intersectCircle(Circle circle2, vector<pair<double, double>>& inters
 	}
 	else
 	{
-		Line line1 = Line(0, -right / (2 * circle2.c2 - 2 * c2), -right / (2 * circle2.c1 - 2 * c1), 0, LINE);
+		Line line1 = Line(1, (-right - 2 * circle2.c1 + 2 * c1) / (2 * circle2.c2 - 2 * c2), 
+			0, -right / (2 * circle2.c2 - 2 * c2), LINE);
+		//Line line1 = Line(1, (-right - 2*circle2.c1 + 2*c1) / (2 * circle2.c2 - 2 * c2), -right / (2 * circle2.c1 - 2 * c1), 0, LINE);
 		//cout << right / (2 * circle2.c2 - 2 * c2) << ' '<<right / (2 * circle2.c1 - 2 * c1) << endl;
 		return intersectLine(line1, intersections);
 	}

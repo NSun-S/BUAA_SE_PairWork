@@ -340,5 +340,31 @@ namespace test
 			circles.push_back(Circle(5, 0, 1));
 			Assert::AreEqual(5, compute(lines, circles));
 		}
+		TEST_METHOD(method12)
+		{
+			vector<Line> lines;
+			vector<Circle> circles;
+			lines.push_back(Line(0, 0, 0, 1, SEGMENT));
+			lines.push_back(Line(0, 0, 0, -1, RAY));
+			Assert::AreEqual(1, compute(lines, circles));
+		}
+		TEST_METHOD(method13)
+		{
+			vector<Line> lines;
+			vector<Circle> circles;
+			lines.push_back(Line(0, 0, 0, 1, SEGMENT));
+			lines.push_back(Line(0, 0, 0, 1, RAY));
+			Assert::AreEqual(0, compute(lines, circles));
+		}
+		TEST_METHOD(method14)
+		{
+			vector<Line> lines;
+			vector<Circle> circles;
+			lines.push_back(Line(0, 0, 1, 1, SEGMENT));
+			lines.push_back(Line(1, 1, 2, 2, SEGMENT));
+			lines.push_back(Line(0, 0, -1, -1, RAY));
+			lines.push_back(Line(3, 3, 2, 2, SEGMENT));
+			Assert::AreEqual(3, compute(lines, circles));
+		}
 	};
 }
