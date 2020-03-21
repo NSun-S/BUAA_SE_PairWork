@@ -1,4 +1,5 @@
 ﻿#include "IntersectProject2.h"
+//#include <stdio.h>
 
 using namespace std;
 
@@ -65,6 +66,7 @@ void solve(string input, string output, vector<pair<double, double>> &realInters
 	if (intersections.size() == 0) 
 	{ 
 		outputFile << 0; 
+		return;
 		//return realIntersections;
 	}
 	realIntersections.push_back(intersections[0]);
@@ -77,9 +79,13 @@ void solve(string input, string output, vector<pair<double, double>> &realInters
 	}
 	outputFile << realIntersections.size();
 	//return realIntersections;
-	//for (auto iter = intersections.begin(); iter != intersections.end(); iter++)
+	//string points = "points.txt";
+	//fstream outpoint(points, ios::out);
+	//cout << realIntersections.size() << endl;
+	//for (auto iter = realIntersections.begin(); iter != realIntersections.end(); iter++)
 	//{
-	//	cout << iter->first << ' ' << iter->second << endl;
+		//cout << iter->first << ' ' << iter->second << endl;
+	//	printf("%.10lf,%.10lf\n",iter->first,iter->second);
 	//}
 }
 

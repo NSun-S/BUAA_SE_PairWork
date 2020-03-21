@@ -1,4 +1,5 @@
 #include "Line.h"
+#include <iostream>
 
 Line::Line(double x1, double y1, double x2, double y2, int type)
 {
@@ -90,6 +91,7 @@ bool Line::intersect(Line line2, vector<pair<double, double>>& intersections)
 	double intersect_x = (-(x1 - x2) * (y3 * x4 - x3 * y4) + (x3 - x4) * (y1 * x2 - x1 * y2)) / Determinant;
 	double intersect_y = (-(y1 - y2) * (y3 * x4 - x3 * y4) + (y3 - y4) * (y1 * x2 - x1 * y2)) / Determinant;
 	pair<double, double> intersect = make_pair(intersect_x, intersect_y);
+	//if (intersect_x == -102198964.000) cout << "???????\n";
 	if (pointOnLine(intersect) && line2.pointOnLine(intersect))
 	{
 		intersections.push_back(make_pair(intersect_x, intersect_y));

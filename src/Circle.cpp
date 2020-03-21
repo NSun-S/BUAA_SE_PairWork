@@ -50,12 +50,12 @@ int Circle::intersectLine(Line line1, vector<pair<double, double>>& intersection
 {
 	double distance = getDistance(line1);
 	//cout << distance << endl;
-	if (distance > r)
+	if (distance - r > eps)
 	{
 		return 0;
 	}
 	pair<double, double> foot = getFoot(line1);
-	if (distance == r)
+	if (fabs(distance - r) < eps)
 	{
 		if (line1.pointOnLine(foot))
 		{
