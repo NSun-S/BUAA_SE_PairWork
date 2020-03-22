@@ -13,7 +13,7 @@ bool myequal(const pair<double, double> pair1, const pair<double, double> pair2)
 	return (fabs(pair1.first - pair2.first) < eps && fabs(pair1.second - pair2.second) < eps);
 }
 
-void solve(string input, string output, vector<pair<double, double>> &realIntersections)
+void solve(string input, vector<pair<double, double>> &realIntersections)
 {
 	fstream inputfile(input);
 	int n;
@@ -61,13 +61,11 @@ void solve(string input, string output, vector<pair<double, double>> &realInters
 		}
 	}
 	sort(intersections.begin(), intersections.end(), cmp);
-	//vector<pair<double, double>> realIntersections;
-	fstream outputFile(output, ios::out);
+	//fstream outputFile(output, ios::out);
 	if (intersections.size() == 0) 
 	{ 
-		outputFile << 0; 
+		//outputFile << 0; 
 		return;
-		//return realIntersections;
 	}
 	realIntersections.push_back(intersections[0]);
 	for (unsigned i = 1; i < intersections.size(); i++)
@@ -77,7 +75,7 @@ void solve(string input, string output, vector<pair<double, double>> &realInters
 			realIntersections.push_back(intersections[i]);
 		}
 	}
-	outputFile << realIntersections.size();
+	//outputFile << realIntersections.size();
 	//return realIntersections;
 	//string points = "points.txt";
 	//fstream outpoint(points, ios::out);
@@ -106,6 +104,8 @@ int main(int argc, char* argv[])
 		}
 	}
 	vector<pair<double, double>> myIntersections;
-	solve(input, output, myIntersections);
+	solve(input, myIntersections);
+	fstream outputFile(output, ios::out);
+	outputFile << myIntersections.size();
 	return 0;
 }

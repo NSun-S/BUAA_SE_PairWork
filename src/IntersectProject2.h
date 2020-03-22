@@ -8,4 +8,4 @@
 #include <ios>
 #include <algorithm>
 
-extern "C" _declspec(dllexport) void __cdecl solve(string input, string output, vector<pair<double, double>> &realIntersections);
+extern "C" _declspec(dllexport) void __cdecl solve(string input, vector<pair<double, double>> &realIntersections);

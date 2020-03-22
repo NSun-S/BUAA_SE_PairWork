@@ -4,6 +4,7 @@
 #include "../src/Circle.h"
 #include <vector>
 #include <algorithm>
+#include "../src/IntersectProject2.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -365,6 +366,16 @@ namespace test
 			lines.push_back(Line(0, 0, -1, -1, RAY));
 			lines.push_back(Line(3, 3, 2, 2, SEGMENT));
 			Assert::AreEqual(3, compute(lines, circles));
+		}
+	};
+	TEST_CLASS(testinterface)
+	{
+		TEST_METHOD(method1) 
+		{
+			vector<pair<double, double>> myIntersections;
+			solve("../input.txt", myIntersections);
+			int answer = myIntersections.size();
+			Assert::AreEqual(6327238, answer);
 		}
 	};
 }
