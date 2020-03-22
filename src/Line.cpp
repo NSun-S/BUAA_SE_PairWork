@@ -27,6 +27,7 @@ bool Line::intersect(Line line2, vector<pair<double, double>>& intersections)
 			}
 			else
 			{
+				//throw "Error: There are infinite intersections";
 				return false;
 			}
 		}
@@ -42,6 +43,7 @@ bool Line::intersect(Line line2, vector<pair<double, double>>& intersections)
 			}
 			else
 			{
+				//throw "Error: There are infinite intersections";
 				return false;
 			}
 		}
@@ -57,6 +59,7 @@ bool Line::intersect(Line line2, vector<pair<double, double>>& intersections)
 			}
 			else
 			{
+				//throw "Error: There are infinite intersections";
 				return false;
 			}
 		}
@@ -80,18 +83,22 @@ bool Line::intersect(Line line2, vector<pair<double, double>>& intersections)
 			}
 			else
 			{
+				//throw "Error: There are infinite intersections";
 				return false;
 			}
 		}
 		else
 		{
+			/*if (pointOnLine(make_pair(x3, y3)) && pointOnLine(make_pair(x4,y4)))
+			{
+				throw "Error: There are infinite intersections";
+			}*/
 			return false;
 		}
 	}
 	double intersect_x = (-(x1 - x2) * (y3 * x4 - x3 * y4) + (x3 - x4) * (y1 * x2 - x1 * y2)) / Determinant;
 	double intersect_y = (-(y1 - y2) * (y3 * x4 - x3 * y4) + (y3 - y4) * (y1 * x2 - x1 * y2)) / Determinant;
 	pair<double, double> intersect = make_pair(intersect_x, intersect_y);
-	//if (intersect_x == -102198964.000) cout << "???????\n";
 	if (pointOnLine(intersect) && line2.pointOnLine(intersect))
 	{
 		intersections.push_back(make_pair(intersect_x, intersect_y));
@@ -99,18 +106,8 @@ bool Line::intersect(Line line2, vector<pair<double, double>>& intersections)
 	return true;
 }
 
-double Line::pointDistance(pair<double, double> point1, pair<double, double> point2)
-{
-	return sqrt(pow(point1.first - point2.first, 2) + pow(point1.second - point2.second, 2));
-}
-
 bool Line::pointOnLine(pair<double, double> intersection)
 {
-	//pair<double, double> endPoint1 = make_pair(x1, y1);
-	//pair<double, double> endPoint2 = make_pair(x2, y2);
-	//double distance1 = pointDistance(endPoint1, intersection);
-	//double distance2 = pointDistance(endPoint2, intersection);
-//	double length = pointDistance(endPoint1, endPoint2);
 	if (type == SEGMENT)
 	{
 		if (x1 == x2)
@@ -121,7 +118,6 @@ bool Line::pointOnLine(pair<double, double> intersection)
 		}
 		return ((x1 - eps <= intersection.first && intersection.first <= x2 + eps) ||
 			(x2 - eps <= intersection.first && intersection.first <= x1 + eps));
-		//return (distance1 <= length + eps && distance2 <= length + eps);
 	}
 	else if (type == RAY)
 	{
@@ -133,8 +129,6 @@ bool Line::pointOnLine(pair<double, double> intersection)
 		}
 		else if (x1 < x2) return x1 - eps <= intersection.first;
 		else return intersection.first <= x1 + eps;
-		//return (((distance2 - distance1) - length) < -eps)||(distance1 < eps);
 	}
 	return true;
 }
-

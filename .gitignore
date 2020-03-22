@@ -7,3 +7,5 @@ Release
 *.filters
 *.user
 *.zip
+.opencppcov/
+*.log

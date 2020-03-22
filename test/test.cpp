@@ -368,14 +368,42 @@ namespace test
 			Assert::AreEqual(3, compute(lines, circles));
 		}
 	};
-	TEST_CLASS(testinterface)
+	TEST_CLASS(testinterface_solve)
 	{
 		TEST_METHOD(method1) 
 		{
+			deleteAll();
 			vector<pair<double, double>> myIntersections;
-			solve("../input.txt", myIntersections);
+			ioHandler("../testinput2.txt");
+			solve(myIntersections);
 			int answer = myIntersections.size();
-			Assert::AreEqual(6327238, answer);
+			Assert::AreEqual(26, answer);
+		}
+		
+	};
+	TEST_CLASS(testinterface_ad)
+	{
+		TEST_METHOD(method1)
+		{
+			vector<pair<double, double>> myIntersections;
+			//ioHandler("../testinput2.txt");
+			addLine(-1, 4, 5, 2, LINE);
+			addLine(2, 4, 3, 2, SEGMENT);
+			addLine(2, 5, -1, 2, RAY);
+			addCircle(3, 3, 3);
+			solve(myIntersections);
+			int answer = myIntersections.size();
+			Assert::AreEqual(5, answer);
+		}
+		TEST_METHOD(method2)
+		{
+			vector<pair<double, double>> myIntersections;
+			//ioHandler("../testinput2.txt");
+			deleteCircle(3,3,3);
+			deleteLine(2, 5, -1, 2, RAY);
+			solve(myIntersections);
+			int answer = myIntersections.size();
+			Assert::AreEqual(1, answer);
 		}
 	};
 }

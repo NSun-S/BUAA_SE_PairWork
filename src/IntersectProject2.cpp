@@ -3,6 +3,9 @@
 
 using namespace std;
 
+vector<Line> lines;
+vector<Circle> circles;
+
 bool cmp(const pair<double, double> pair1, const pair<double, double> pair2)
 {
 	return (pair1.first - pair2.first> eps || (fabs(pair1.first - pair2.first) < eps && pair1.second - pair2.second > eps));
@@ -13,46 +16,30 @@ bool myequal(const pair<double, double> pair1, const pair<double, double> pair2)
 	return (fabs(pair1.first - pair2.first) < eps && fabs(pair1.second - pair2.second) < eps);
 }
 
-void solve(string input, vector<pair<double, double>> &realIntersections)
+void solve(vector<pair<double, double>> &realIntersections) throw(const char*)
 {
-	fstream inputfile(input);
-	int n;
-	inputfile >> n;
-	vector<Line> lines;
-	vector<Circle>circles;
 	vector<pair<double, double>> intersections;
-	for (int i = 0; i < n; i++)
-	{
-		char type;
-		inputfile >> type;
-		if (type == 'L' || type == 'R' || type == 'S')
-		{
-			int tempType = -1;
-			if (type == 'L') tempType = LINE;
-			else if (type == 'R') tempType = RAY;
-			else if (type == 'S') tempType = SEGMENT;
-			double x1, x2, y1, y2;
-			inputfile >> x1 >> y1 >> x2 >> y2;
-			lines.push_back(Line(x1, y1, x2, y2, tempType));
-		}
-		else if (type == 'C')
-		{
-			double c1, c2, r;
-			inputfile >> c1 >> c2 >> r;
-			circles.push_back(Circle(c1, c2, r));
-		}
-	}
 	for (unsigned i = 0; i < lines.size(); i++)
 	{
 		for (unsigned j = i + 1; j < lines.size(); j++)
 		{
-			lines[i].intersect(lines[j], intersections);
+			try
+			{
+				lines[i].intersect(lines[j], intersections);
+			}catch (const char* msg)
+			{
+				throw msg;
+			}
 		}
 	}
 	for (unsigned i = 0; i < circles.size(); i++)
 	{
 		for (unsigned j = i + 1; j < circles.size(); j++)
 		{
+			if (circles[i].c1 == circles[j].c1 && circles[i].c2 == circles[j].c2 && circles[i].r == circles[j].r)
+			{
+				throw "Error: There are two same circles";
+			}
 			circles[i].intersectCircle(circles[j], intersections);
 		}
 		for (unsigned j = 0; j < lines.size(); j++)
@@ -61,7 +48,6 @@ void solve(string input, vector<pair<double, double>> &realIntersections)
 		}
 	}
 	sort(intersections.begin(), intersections.end(), cmp);
-	//fstream outputFile(output, ios::out);
 	if (intersections.size() == 0) 
 	{ 
 		//outputFile << 0; 
@@ -75,18 +61,101 @@ void solve(string input, vector<pair<double, double>> &realIntersections)
 			realIntersections.push_back(intersections[i]);
 		}
 	}
-	//outputFile << realIntersections.size();
-	//return realIntersections;
-	//string points = "points.txt";
-	//fstream outpoint(points, ios::out);
 	//cout << realIntersections.size() << endl;
 	//for (auto iter = realIntersections.begin(); iter != realIntersections.end(); iter++)
 	//{
 		//cout << iter->first << ' ' << iter->second << endl;
-	//	printf("%.10lf,%.10lf\n",iter->first,iter->second);
+	//	printf("%.3lf,%.3lf\n",iter->first,iter->second);
 	//}
 }
 
+void __cdecl ioHandler(string input) throw(const char*)
+{
+	fstream inputfile(input);
+	int n;
+	inputfile >> n;
+	for (int i = 0; i < n; i++)
+	{
+		char type;
+		inputfile >> type;
+		if (type == 'L' || type == 'R' || type == 'S')
+		{
+			int tempType = -1;
+			if (type == 'L') tempType = LINE;
+			else if (type == 'R') tempType = RAY;
+			else if (type == 'S') tempType = SEGMENT;
+			double x1, x2, y1, y2;
+			inputfile >> x1 >> y1 >> x2 >> y2;
+			if (fabs(x1) > 100000 || fabs(y1) > 100000 || fabs(x2) > 100000 || fabs(y2) > 100000)
+			{
+				throw "Warning: your coordinate value is out of bound";
+			}
+			if (x1 == x2 && y1 == y2)
+			{
+				throw "Error: two points of a line should be different";
+			}
+			lines.push_back(Line(x1, y1, x2, y2, tempType));
+		}
+		else if (type == 'C')
+		{
+			double c1, c2, r;
+			inputfile >> c1 >> c2 >> r;
+			if (fabs(c1) > 100000 || fabs(c2) > 100000)
+			{
+				throw "Warning: your coordinate value is out of bound";
+			}
+			if (fabs(r) <= 0)
+			{
+				throw "Error: circle's radius should be a positive integer";
+			}
+			circles.push_back(Circle(c1, c2, r));
+		}
+		else
+		{
+			throw ("Error: unexcepted type mark");
+		}
+	}
+}
+
+void __cdecl addLine(double x1, double y1, double x2, double y2, int type)
+{
+	lines.push_back(Line(x1, y1, x2, y2, type));
+}
+
+void __cdecl deleteLine(double x1, double y1, double x2, double y2, int type)
+{
+	for (auto iter = lines.begin(); iter!= lines.end();iter++)
+	{
+		if (iter->x1 == x1 && iter->y1 == y1 && iter->x2 == x2 && iter->y2 == y2 && iter->type == type)
+		{
+			lines.erase(iter);
+			break;
+		}
+	}
+}
+
+void __cdecl addCircle(double c1, double c2, double r)
+{
+	circles.push_back(Circle(c1, c2, r));
+}
+
+void __cdecl deleteCircle(double c1, double c2, double r)
+{
+	for (auto iter = circles.begin(); iter != circles.end(); iter++)
+	{
+		if (iter->c1 == c1 && iter->c2 == c2 && iter->r == r)
+		{
+			circles.erase(iter);
+			break;
+		}
+	}
+}
+
+void __cdecl deleteAll()
+{
+	lines.clear();
+	circles.clear();
+}
 
 int main(int argc, char* argv[])
 {
@@ -104,7 +173,15 @@ int main(int argc, char* argv[])
 		}
 	}
 	vector<pair<double, double>> myIntersections;
-	solve(input, myIntersections);
+	try
+	{
+		ioHandler(input);
+		solve(myIntersections);
+	}
+	catch (const char* msg)
+	{
+		cerr << msg << endl;
+	}
 	fstream outputFile(output, ios::out);
 	outputFile << myIntersections.size();
 	return 0;
