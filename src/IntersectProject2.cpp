@@ -69,7 +69,7 @@ void solve(vector<pair<double, double>> &realIntersections) throw(const char*)
 	//}
 }
 
-void __cdecl ioHandler(string input) throw(const char*)
+void __cdecl ioHandler(string input)throw(const char*)
 {
 	fstream inputfile(input);
 	int n;
@@ -117,8 +117,16 @@ void __cdecl ioHandler(string input) throw(const char*)
 	}
 }
 
-void __cdecl addLine(double x1, double y1, double x2, double y2, int type)
+void __cdecl addLine(double x1, double y1, double x2, double y2, int type)throw(const char*)
 {
+	if (fabs(x1) > 100000 || fabs(y1) > 100000 || fabs(x2) > 100000 || fabs(y2) > 100000)
+	{
+		throw "Warning: your coordinate value is out of bound";
+	}
+	if (x1 == x2 && y1 == y2)
+	{
+		throw "Error: two points of a line should be different";
+	}
 	lines.push_back(Line(x1, y1, x2, y2, type));
 }
 
@@ -134,8 +142,16 @@ void __cdecl deleteLine(double x1, double y1, double x2, double y2, int type)
 	}
 }
 
-void __cdecl addCircle(double c1, double c2, double r)
+void __cdecl addCircle(double c1, double c2, double r)throw(const char*)
 {
+	if (fabs(c1) > 100000 || fabs(c2) > 100000)
+	{
+		throw "Warning: your coordinate value is out of bound";
+	}
+	if (fabs(r) <= 0)
+	{
+		throw "Error: circle's radius should be a positive integer";
+	}
 	circles.push_back(Circle(c1, c2, r));
 }
 

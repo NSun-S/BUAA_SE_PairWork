@@ -406,4 +406,64 @@ namespace test
 			Assert::AreEqual(1, answer);
 		}
 	};
+	TEST_CLASS(exceptionTest)
+	{
+		TEST_METHOD(method1)
+		{
+			try
+			{
+				addLine(-1, 4, -1, 4, LINE);
+			}
+			catch (const char* msg)
+			{
+				Assert::AreEqual("Error: two points of a line should be different", msg);
+			}
+		}
+		TEST_METHOD(method2)
+		{
+			try
+			{
+				addLine(-1000000, 4, -1, 4, LINE);
+			}
+			catch (const char* msg)
+			{
+				Assert::AreEqual("Warning: your coordinate value is out of bound", msg);
+			}
+		}
+		TEST_METHOD(method3)
+		{
+			try
+			{
+				addCircle(-10, 4, -1);
+			}
+			catch (const char* msg)
+			{
+				Assert::AreEqual("Error: circle's radius should be a positive integer", msg);
+			}
+		}
+		TEST_METHOD(method4)
+		{
+			try
+			{
+				addCircle(-10, 4, -1);
+			}
+			catch (const char* msg)
+			{
+				Assert::AreEqual("Error: circle's radius should be a positive integer", msg);
+			}
+		}
+		TEST_METHOD(method5)
+		{
+			deleteAll();
+			vector<pair<double, double>> myIntersections;
+			try
+			{
+				ioHandler("../undefined.txt");
+			}
+			catch (const char* msg)
+			{
+				Assert::AreEqual("Error: unexcepted type mark", msg);
+			}
+		}
+	};
 }
