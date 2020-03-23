@@ -20,3 +20,5 @@ public:
 	double y2;
 	int type;
 };
+
+//bool intersect(Line line2, set<pair<double, double>>& intersections);
