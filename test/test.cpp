@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../src/Line.h"
-#include "../src/Circle.h"
+#include "../core/Line.h"
+#include "../core/Circle.h"
 #include <vector>
 #include <algorithm>
-#include "../src/IntersectProject2.h"
+#include "../core/IntersectProject2.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -374,11 +374,12 @@ namespace test
 		{
 			deleteAll();
 			vector<pair<double, double>> myIntersections;
-			ioHandler("../testinput2.txt");
+			ioHandler("input.txt");
 			solve(myIntersections);
-			int answer = myIntersections.size();
+			int answer = (int)myIntersections.size();
 			Assert::AreEqual(26, answer);
 		}
+		
 	};
 	TEST_CLASS(testinterface_ad)
 	{
@@ -391,7 +392,7 @@ namespace test
 			addLine(2, 5, -1, 2, RAY);
 			addCircle(3, 3, 3);
 			solve(myIntersections);
-			int answer = myIntersections.size();
+			int answer = (int)myIntersections.size();
 			Assert::AreEqual(5, answer);
 		}
 		TEST_METHOD(method2)
@@ -401,7 +402,7 @@ namespace test
 			deleteCircle(3,3,3);
 			deleteLine(2, 5, -1, 2, RAY);
 			solve(myIntersections);
-			int answer = myIntersections.size();
+			int answer = (int)myIntersections.size();
 			Assert::AreEqual(1, answer);
 		}
 	};
