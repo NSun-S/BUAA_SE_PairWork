@@ -1,6 +1,6 @@
 .vs
-Debug
-Release
+**/Debug
+**/Release
 *.txt
 *.sln
 *.vcxproj
@@ -9,4 +9,7 @@ Release
 *.zip
 .opencppcov/
 *.log
-myGUI
+**/x64/
+**/Resources
+
+
