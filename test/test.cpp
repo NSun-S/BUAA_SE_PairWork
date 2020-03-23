@@ -379,7 +379,6 @@ namespace test
 			int answer = myIntersections.size();
 			Assert::AreEqual(26, answer);
 		}
-		
 	};
 	TEST_CLASS(testinterface_ad)
 	{

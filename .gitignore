@@ -9,3 +9,4 @@ Release
 *.zip
 .opencppcov/
 *.log
+myGUI

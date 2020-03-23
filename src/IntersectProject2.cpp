@@ -69,7 +69,7 @@ void solve(vector<pair<double, double>> &realIntersections) throw(const char*)
 	//}
 }
 
-void __cdecl ioHandler(string input)throw(const char*)
+void ioHandler(string input)throw(const char*)
 {
 	fstream inputfile(input);
 	int n;
@@ -117,7 +117,7 @@ void __cdecl ioHandler(string input)throw(const char*)
 	}
 }
 
-void __cdecl addLine(double x1, double y1, double x2, double y2, int type)throw(const char*)
+void addLine(double x1, double y1, double x2, double y2, int type)throw(const char*)
 {
 	if (fabs(x1) > 100000 || fabs(y1) > 100000 || fabs(x2) > 100000 || fabs(y2) > 100000)
 	{
@@ -130,7 +130,7 @@ void __cdecl addLine(double x1, double y1, double x2, double y2, int type)throw(
 	lines.push_back(Line(x1, y1, x2, y2, type));
 }
 
-void __cdecl deleteLine(double x1, double y1, double x2, double y2, int type)
+void deleteLine(double x1, double y1, double x2, double y2, int type)
 {
 	for (auto iter = lines.begin(); iter!= lines.end();iter++)
 	{
@@ -142,7 +142,7 @@ void __cdecl deleteLine(double x1, double y1, double x2, double y2, int type)
 	}
 }
 
-void __cdecl addCircle(double c1, double c2, double r)throw(const char*)
+void addCircle(double c1, double c2, double r)throw(const char*)
 {
 	if (fabs(c1) > 100000 || fabs(c2) > 100000)
 	{
@@ -155,7 +155,7 @@ void __cdecl addCircle(double c1, double c2, double r)throw(const char*)
 	circles.push_back(Circle(c1, c2, r));
 }
 
-void __cdecl deleteCircle(double c1, double c2, double r)
+void deleteCircle(double c1, double c2, double r)
 {
 	for (auto iter = circles.begin(); iter != circles.end(); iter++)
 	{
@@ -167,7 +167,7 @@ void __cdecl deleteCircle(double c1, double c2, double r)
 	}
 }
 
-void __cdecl deleteAll()
+void deleteAll()
 {
 	lines.clear();
 	circles.clear();
