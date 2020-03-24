@@ -1,5 +1,6 @@
 ## BUAA软件工程结对项目
 ### 目录结构
+```
 ├─bin
 
 ├─core
@@ -19,7 +20,7 @@
 ├─myGUI
 
 └─test
-
+```
 #### bin文件夹
 包含intersect.exe可执行文件，-i path to input file -o path to output file，用法示例intersect.exe -i input.txt -o output.txt。
 #### core文件夹
