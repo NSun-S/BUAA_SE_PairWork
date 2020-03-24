@@ -2,23 +2,14 @@
 ### 目录结构
 ```
 ├─bin
-
 ├─core
-
 ├─GUI_EXE
-
 │  ├─iconengines
-
 │  ├─imageformats
-
 │  ├─platforms
-
 │  ├─styles
-
 │  └─translations
-
 ├─myGUI
-
 └─test
 ```
 #### bin文件夹
