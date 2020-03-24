@@ -16,7 +16,7 @@
 
 包含intersect.exe可执行文件，
 ```
--i path to input file -o path to output file
+-i <path to input file> -o <path to output file>
 ```
 用法示例
 ```
