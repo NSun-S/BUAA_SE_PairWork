@@ -8,12 +8,10 @@
 
 using namespace std;
 
-class Line
+class UILine
 {
 public:
-	Line(double x1, double y1, double x2, double y2, int type);
-	bool intersect(Line line2, vector<pair<double, double>>& intersections);
-	bool pointOnLine(pair<double, double> intersection);
+	UILine(double x1, double y1, double x2, double y2, int type);
 	double x1;
 	double y1;
 	double x2;

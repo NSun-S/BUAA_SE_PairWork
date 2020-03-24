@@ -12,6 +12,8 @@
 #include "ui_myGUI.h"
 #include "qcustomplot.h"
 #include "IntersectProject2.h"
+#include "UILine.h"
+#include "UICircle.h"
 
 using namespace std;
 
@@ -24,6 +26,8 @@ public:
 	void initialize();
 private:
 	Ui::myGUIClass ui;
+	vector<UILine> lines;
+	vector<UICircle> circles;
 
 public slots:
 	void Qsolve();
