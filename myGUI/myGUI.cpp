@@ -36,6 +36,7 @@ void myGUI::QaddLine()
 		type = SEGMENT;
 	}
 	addLine(x1, y1, x2, y2, type);
+	lines.push_back(UILine(x1, y1, x2, y2, type));
 	Qsolve();
 }
 
@@ -51,6 +52,14 @@ void myGUI::QdeleteLine()
 	else if (newType == "R") type = RAY;
 	else if (newType == "S") type = SEGMENT;
 	deleteLine(x1, y1, x2, y2, type);
+	for (auto iter = lines.begin(); iter != lines.end(); iter++)
+	{
+		if (iter->x1 == x1 && iter->y1 == y1 && iter->x2 == x2 && iter->y2 == y2 && iter->type == type)
+		{
+			lines.erase(iter);
+			break;
+		}
+	}
 	ui.widget->clearItems();
 	ui.widget->clearGraphs();
 	Qsolve();
@@ -62,6 +71,7 @@ void myGUI::QaddCircle()
 	double c2 = ui.newC2->toPlainText().toDouble();
 	double r = ui.newR->toPlainText().toDouble();
 	addCircle(c1, c2, r);
+	circles.push_back(UICircle(c1, c2, r));
 	Qsolve();
 }
 
@@ -71,6 +81,14 @@ void myGUI::QdeleteCircle()
 	double c2 = ui.newC2->toPlainText().toDouble();
 	double r = ui.newR->toPlainText().toDouble();
 	deleteCircle(c1, c2, r);
+	for (auto iter = circles.begin(); iter != circles.end(); iter++)
+	{
+		if (iter->c1 == c1 && iter->c2 == c2 && iter->r == r)
+		{
+			circles.erase(iter);
+			break;
+		}
+	}
 	ui.widget->clearItems();
 	ui.widget->clearGraphs();
 	Qsolve();
@@ -81,13 +99,39 @@ void myGUI::QdeleteAll()
 	deleteAll();
 	ui.widget->clearItems();
 	ui.widget->clearGraphs();
-	ui.widget->replot();
+	lines.clear();
+	circles.clear();
+	Qsolve();
 }
 
 void myGUI::QioHandler()
 {
-	string inputFile = ui.fileInput->toPlainText().toStdString();
-	ioHandler(inputFile);
+	string input = ui.fileInput->toPlainText().toStdString();
+	ioHandler(input);
+	fstream inputfile(input);
+	int n;
+	inputfile >> n;
+	for (int i = 0; i < n; i++)
+	{
+		char type;
+		inputfile >> type;
+		if (type == 'L' || type == 'R' || type == 'S')
+		{
+			int tempType = -1;
+			if (type == 'L') tempType = LINE;
+			else if (type == 'R') tempType = RAY;
+			else if (type == 'S') tempType = SEGMENT;
+			double x1, x2, y1, y2;
+			inputfile >> x1 >> y1 >> x2 >> y2;
+			lines.push_back(UILine(x1, y1, x2, y2, tempType));
+		}
+		else if (type == 'C')
+		{
+			double c1, c2, r;
+			inputfile >> c1 >> c2 >> r;
+			circles.push_back(UICircle(c1, c2, r));
+		}
+	}
 	Qsolve();
 }
 
@@ -124,7 +168,6 @@ void myGUI::Qsolve()
 	ui.widget->xAxis->setVisible(true);
 	ui.widget->yAxis->setVisible(true);
 
-	vector<Line> lines = getLines();
 	for (unsigned i = 0; i < lines.size(); i++)
 	{
 		if (lines[i].type == LINE) {
@@ -154,7 +197,6 @@ void myGUI::Qsolve()
 		}
 	}
 
-	vector<Circle> circles = getCircles();
 	for (unsigned i = 0; i < circles.size(); i++) {
 		QCPItemEllipse* circle = new  QCPItemEllipse(ui.widget);
 		circle->topLeft->setType(QCPItemPosition::PositionType::ptPlotCoords);
